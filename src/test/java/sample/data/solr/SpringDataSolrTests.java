@@ -19,6 +19,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * solr springData 测试
+ *
+ * @author liangchuanchuan
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SpringDataSolrTests {
@@ -60,7 +65,7 @@ public class SpringDataSolrTests {
 
 
     /**
-     * 查找全部学生并放入solr 中
+     * 查询
      */
     @Test
     public void search() {
@@ -69,6 +74,15 @@ public class SpringDataSolrTests {
         Page<ProductSolr> page = productSolrRepository.findByNameOrDescription("过关", "上下分册", pageRequest);
         System.out.println("page.getContent().size(): " + page.getContent().size());
         System.out.println(page.getContent());
+    }
+
+    /**
+     * 查询高亮
+     */
+    @Test
+    public void searchHighlight() {
+        // spring data 第一页为 0
+        PageRequest pageRequest = new PageRequest(0, 10);
 
         HighlightPage<ProductSolr> highlightPage = productSolrRepository.findByNameIn(Arrays.asList("过关", "毛衣"), pageRequest);
         // 设置高亮对象

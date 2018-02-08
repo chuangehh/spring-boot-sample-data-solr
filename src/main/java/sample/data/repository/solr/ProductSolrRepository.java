@@ -26,7 +26,7 @@ import sample.data.entity.solr.ProductSolr;
 import java.util.Collection;
 
 /**
- * 商品solr 仓库
+ * 商品solr DAO层
  *
  * @author liangchuanchuan
  */

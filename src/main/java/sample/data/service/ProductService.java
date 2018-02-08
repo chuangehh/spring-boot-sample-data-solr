@@ -9,7 +9,7 @@ import sample.data.repository.mysql.ProductRepository;
 import java.util.List;
 
 /**
- * Product Service
+ * 商品 Service
  *
  * @author liangchuanchuan
  */
