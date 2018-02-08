@@ -1,4 +1,4 @@
-package sample.data.solrtest;
+package sample.data.solr;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -6,13 +6,12 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.common.SolrInputDocument;
 import org.junit.Test;
+import sample.data.entity.mysql.Product;
+import sample.data.entity.solr.ProductSolr;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * SolrJ 测试
@@ -21,10 +20,10 @@ import java.util.Map;
  */
 public class SolrJTests {
 
-    private String serverUrl = "http://192.168.1.4:8080/solr/core1";
+    private String serverUrl = "http://127.0.0.1:8983/solr/product";
 
     /**
-     * 增加与修改<br>
+     * 增加与修改
      * 增加与修改其实是一回事，只要id不存在，则增加，如果id存在，则是修改
      *
      * @throws IOException
@@ -32,23 +31,19 @@ public class SolrJTests {
      */
     @Test
     public void upadteIndex() throws SolrServerException, IOException {
-        //已废弃的方法
-        //HttpSolrServer server = new HttpSolrServer("http://192.168.1.4:8080/solr/core1");
-        //创建
+        // 创建solr链接
         HttpSolrClient client = new HttpSolrClient(serverUrl);
-        SolrInputDocument doc = new SolrInputDocument();
 
-        doc.addField("id", "zxj1");
-        doc.addField("product_name", "javaWEB技术");
-        doc.addField("product_catalog", "1");
-        doc.addField("product_catalog_name", "书籍");
-        doc.addField("product_price", "11");
-        doc.addField("product_description", "这是一本好书");
-        doc.addField("product_picture", "图片地址");
+        ProductSolr product1 = new ProductSolr("高领毛衣", 1, "衣服", 100D, 22, "春秋冬季节卫衣是首选，卫衣就是值得炫耀的春秋单品，此款卫衣显得宽大，是休闲类服饰中很受欢迎的服饰哦个性字母数字图案，圆领及新颖的款式设计更显时尚大方喜欢的MM千万不要错过哦~ ", "www.dongao.com", new Date());
+        product1.setId(1001L);
+        ProductSolr product2 = new ProductSolr("轻松过关3", 2, "图书", 100D, 22, "小身材大智慧，高度浓缩精华 ", "www.dongao.com", new Date());
+        product2.setId(1002L);
 
-        client.add(doc);
+//        client.addBean(product1);
+//        client.addBean(product2);
+        client.addBeans(Arrays.asList(product1,product2));
+
         client.commit();
-
         client.close();
     }
 
@@ -62,16 +57,13 @@ public class SolrJTests {
         HttpSolrClient client = new HttpSolrClient(serverUrl);
 
         //1.删除一个
-        client.deleteById("zxj1");
+//        client.deleteById("1001");
 
         //2.删除多个
-        List<String> ids = new ArrayList<>();
-        ids.add("1");
-        ids.add("2");
-        client.deleteById(ids);
+//        client.deleteById(Arrays.asList("1001","1002"));
 
         //3.根据查询条件删除数据,这里的条件只能有一个，不能以逗号相隔
-        client.deleteByQuery("id:zxj1");
+//        client.deleteByQuery("id:1001");
 
         //4.删除全部，删除不可恢复
         client.deleteByQuery("*:*");
@@ -88,7 +80,7 @@ public class SolrJTests {
         //创建查询对象
         SolrQuery query = new SolrQuery();
         //q 查询字符串，如果查询所有*:*
-        query.set("q", "product_name:小黄人");
+        query.set("q", "name:小毛衣");
         //fq 过滤条件，过滤是基于查询结果中的过滤
         query.set("fq", "product_catalog_name:幽默杂货");
         //sort 排序，请注意，如果一个字段没有被索引，那么它是无法排序的
