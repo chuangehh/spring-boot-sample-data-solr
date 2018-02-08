@@ -21,7 +21,7 @@ public class ProductService {
     private ProductRepository productRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public void save(List<Product> products) {
-        productRepository.save(products);
+    public List<Product> save(List<Product> products) {
+        return productRepository.save(products);
     }
 }

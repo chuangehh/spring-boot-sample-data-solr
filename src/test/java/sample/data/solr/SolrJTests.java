@@ -7,11 +7,13 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.junit.Test;
-import sample.data.entity.mysql.Product;
 import sample.data.entity.solr.ProductSolr;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * SolrJ 测试
@@ -43,7 +45,7 @@ public class SolrJTests {
 
 //        client.addBean(product1);
 //        client.addBean(product2);
-        client.addBeans(Arrays.asList(product1,product2));
+        client.addBeans(Arrays.asList(product1, product2));
 
         client.commit();
         client.close();
@@ -75,6 +77,11 @@ public class SolrJTests {
         client.close();
     }
 
+    /**
+     * 查询
+     *
+     * @throws Exception
+     */
     @Test
     public void search() throws Exception {
         HttpSolrClient client = new HttpSolrClient(serverUrl);

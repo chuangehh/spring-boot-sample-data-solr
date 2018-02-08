@@ -19,21 +19,37 @@ package sample.data.repository.solr;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.solr.core.query.result.HighlightPage;
-import org.springframework.data.solr.repository.Boost;
 import org.springframework.data.solr.repository.Highlight;
 import org.springframework.data.solr.repository.SolrCrudRepository;
 import sample.data.entity.solr.ProductSolr;
 
 import java.util.Collection;
-import java.util.List;
 
+/**
+ * 商品solr 仓库
+ *
+ * @author liangchuanchuan
+ */
 public interface ProductSolrRepository extends SolrCrudRepository<ProductSolr, String> {
 
-    List<ProductSolr> findByNameStartingWith(String name);
+    /**
+     * 根据商品名字或描述查找
+     *
+     * @param name
+     * @param description
+     * @param page
+     * @return
+     */
+    Page<ProductSolr> findByNameOrDescription(String name, String description, Pageable page);
 
-    Page<ProductSolr> findByNameOrDescription(@Boost(2) String name, String description, Pageable page);
-
-    @Highlight
+    /**
+     * 根据名字高亮查找
+     *
+     * @param name
+     * @param page
+     * @return
+     */
+    @Highlight(prefix = "<span style='color:red'>", postfix = "</span>")
     HighlightPage<ProductSolr> findByNameIn(Collection<String> name, Pageable page);
 
 }
