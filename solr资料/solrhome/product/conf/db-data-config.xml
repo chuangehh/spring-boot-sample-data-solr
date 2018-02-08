@@ -1,0 +1,17 @@
+<dataConfig>
+	<!-- mysql的配置-->
+    <dataSource driver="com.mysql.jdbc.Driver" url="jdbc:mysql://127.0.0.1:3306/shop" user="root" password="password" />
+    <document>
+	    <!-- name属性，就代表着一个文档，可以随便命名 -->
+        <!-- query是一条sql，代表在数据库查找出来的数据 -->
+        <entity name="product" query="select * from product">
+            <field column="id" name="id"/>
+            <field column="name" name="name"/>
+            <field column="catalog" name="catalog"/>
+            <field column="catalog_name" name="catalog_name"/>
+            <field column="price" name="price"/>
+            <field column="description" name="description"/>
+            <field column="picture" name="picture"/>
+        </entity>
+    </document>
+</dataConfig>
