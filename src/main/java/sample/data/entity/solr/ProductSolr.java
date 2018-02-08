@@ -60,6 +60,7 @@ public class ProductSolr {
     /**
      * 发布时间
      */
+    @Field
     private Date createTime;
 
     public ProductSolr() {
